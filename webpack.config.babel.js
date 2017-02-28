@@ -1,5 +1,7 @@
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CompressionPlugin from 'compression-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 import path from 'path'
 import _debug from 'debug'
 
@@ -10,7 +12,7 @@ const configuration = {
   output: {
     // options related to how webpack emits results
     path: path.resolve(__dirname, "dist"),
-    filename: '[name].[hash].js',
+    filename: 'app.bundle.js',
     publicPath: "/", // the url to the output directory resolved relative to the HTML page
     // library: "MyLibrary", // the name of the exported library
     // libraryTarget: "umd", // universal module definition the type of the exported library
@@ -95,9 +97,29 @@ const configuration = {
         filename: 'index.html',
         inject: 'body',
         minify: {
-          collapseWhitespace: false
+          collapseWhitespace: true
         }
     }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        unused: true,
+        dead_code: true,
+        warnings: false,
+        drop_console: true
+      }
+    }),
+    new CompressionPlugin({
+      asset: "[path]",
+      algorithm: "gzip",
+      test: /\.js$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
+    new CopyWebpackPlugin([{
+      from: 'lambda/index.js',
+      to: ''
+    }])
   ],
 }
 
