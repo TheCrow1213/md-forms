@@ -52,15 +52,11 @@ const configuration = {
     },
   },
 
-  // performance: {
-  //   hints: "warning", // enum
-  //   maxAssetSize: 200000, // int (in bytes),
-  //   maxEntrypointSize: 400000, // int (in bytes)
-  //   assetFilter: function(assetFilename) { 
-  //     // Function predicate that provides asset filenames
-  //     return assetFilename.endsWith('.css') || assetFilename.endsWith('.js') || assetFilename.endsWith('.jsx')
-  //   }
-  // },
+  performance: {
+    hints: "warning", // enum
+    maxAssetSize: 200000, // int (in bytes),
+    maxEntrypointSize: 400000, // int (in bytes)
+  },
 
   devtool: "source-map", // enum
   // enhance debugging by adding meta info for the browser devtools
@@ -78,7 +74,12 @@ const configuration = {
   // externals: ["react"],
   // Don't follow/bundle these modules, but request them at runtime from the environment
 
-  stats: "errors-only",
+  stats: {
+    chunks: false,
+    chunkModules: false,
+    colors: true,
+    warnings: true
+  },
   // lets you precisely control what bundle information gets displayed
 
   devServer: {
