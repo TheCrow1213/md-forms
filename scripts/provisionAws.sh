@@ -1,6 +1,9 @@
 export AWS_ACCESS_KEY_ID=AKIAI2NNTQCS3GUGGLGQ
 export AWS_SECRET_ACCESS_KEY=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
 S3_BUCKET='mdforms'
+DB_NAME='mdforms'
+
+## TODO Create roles
 
 aws lambda create-function \
     --function-name usersController \
@@ -8,3 +11,6 @@ aws lambda create-function \
     --runtime 'nodejs4.3' \
     --handler 'usersController.handler' \
     --code S3Bucket=$S3_BUCKET,S3Key='usersController.zip'
+
+## Create API Gateway
+## Create Dynamo Db, attach access policy to role

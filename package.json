@@ -24,7 +24,7 @@
       }
     },
     "init-lambda": {
-      "command": "./scripts/createFunction.sh",
+      "command": "./scripts/provisionAws.sh",
       "env": {
         "DEBUG": "webpack:*"
       }
