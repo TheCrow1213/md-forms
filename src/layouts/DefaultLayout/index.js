@@ -16,7 +16,7 @@ const styles = {
     },
     'layout': {
         width: '75vw',
-        margin: '10vh auto 0',
+        margin: '10vh auto 20vh',
         textAlign: 'center'
     }
 }

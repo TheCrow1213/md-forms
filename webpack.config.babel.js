@@ -52,11 +52,11 @@ const configuration = {
     },
   },
 
-  performance: {
-    hints: "warning", // enum
-    maxAssetSize: 200000, // int (in bytes),
-    maxEntrypointSize: 400000, // int (in bytes)
-  },
+  // performance: {
+  //   hints: "warning", // enum
+  //   maxAssetSize: 200000, // int (in bytes),
+  //   maxEntrypointSize: 400000, // int (in bytes)
+  // },
 
   devtool: "source-map", // enum
   // enhance debugging by adding meta info for the browser devtools
@@ -101,6 +101,16 @@ const configuration = {
           collapseWhitespace: true
         }
     }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: process.env.DEVELOPMENT ? JSON.stringify('development') : JSON.stringify('production')
+      }
+    }),
+  ],
+}
+
+if (!process.env.DEVELOPMENT) {
+  configuration.plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -116,12 +126,7 @@ const configuration = {
       test: /\.js$|\.html$/,
       threshold: 10240,
       minRatio: 0.8
-    }),
-    new CopyWebpackPlugin([{
-      from: 'lambda/index.js',
-      to: ''
-    }])
-  ],
+    }))
 }
 
 module.exports = configuration

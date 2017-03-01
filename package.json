@@ -11,19 +11,26 @@
   },
   "scripts": {
     "build": "better-npm-run build",
+    "init-lambda": "better-npm-run init-lambda",
     "deploy": "better-npm-run deploy",
     "start": "better-npm-run server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "betterScripts": {
     "build": {
-      "command": "rm -rf dist && webpack",
+      "command": "rm -rf dist && webpack && ./scripts/zipLambda.sh",
+      "env": {
+        "DEBUG": "webpack:*"
+      }
+    },
+    "init-lambda": {
+      "command": "./scripts/createFunction.sh",
       "env": {
         "DEBUG": "webpack:*"
       }
     },
     "deploy": {
-      "command": "rm -rf dist && webpack && ./scripts/s3Sync.sh",
+      "command": "rm -rf dist && webpack && ./scripts/zipLambda.sh && ./scripts/s3Sync.sh && ./scripts/updateFunction.sh",
       "env": {
         "DEBUG": "webpack:*"
       }
@@ -37,6 +44,7 @@
     }
   },
   "devDependencies": {
+    "axios": "^0.15.3",
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
@@ -63,8 +71,14 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-jss": "^5.3.0",
+    "react-redux": "^5.0.3",
     "react-router": "^3.0.2",
     "react-tap-event-plugin": "^2.0.1",
+    "redux": "^3.6.0",
+    "redux-localstorage": "^0.4.1",
+    "redux-logger": "^2.8.1",
+    "redux-thunk": "^2.2.0",
+    "uuid": "^3.0.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
   }

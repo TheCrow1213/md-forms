@@ -1,3 +1,10 @@
-import LandingPage from './LandingPage.mdx'
+import { connect } from 'react-redux'
+import { createUser, userUpdated } from '../../store/user/actions'
 
-export default LandingPage
+import LandingPage from './LandingPage'
+
+export default connect((state) => {
+    return {
+        user: state.user
+    }
+}, { createUser, userUpdated })(LandingPage)

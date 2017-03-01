@@ -1,0 +1,22 @@
+---
+imports:
+  TextField: material-ui/TextField
+  Toggle: material-ui/Toggle
+  SelectField: material-ui/SelectField
+  MenuItem: material-ui/MenuItem
+  '{ RadioButtonGroup, RadioButton }': material-ui/RadioButton
+---
+
+# Hello! Welcome :)
+
+### Please tell us about yourself
+
+{{ <TextField hintText="John" floatingLabelText="First Name" fullWidth={true} value={props.firstName} onChange={props.onFirstNameChange} /> }}
+
+{{ <TextField hintText="Doe" floatingLabelText="Last Name" fullWidth={true} value={props.lastName} onChange={props.onLastNameChange} /> }}
+
+{{ <TextField hintText="john@doe.com" floatingLabelText="Email" fullWidth={true} value={props.email} onChange={props.onEmailChange} /> }}
+
+{{ <Toggle label="Are you awesome?" style={{ maxWidth: '250px', margin: '0 auto' }} toggled={props.awesome} onToggle={props.onAwesomeChange} /> }}
+
+{{ <TextField hintText="I am just great" floatingLabelText="Other Info" floatingLabelStyle={{ left: 0 }} multiLine={true} rows={5} fullWidth={true} value={props.info} onChange={props.onInfoChange} /> }}
