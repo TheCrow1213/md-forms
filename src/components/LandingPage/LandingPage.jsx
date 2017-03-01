@@ -15,53 +15,49 @@ export default class LandingPage extends React.Component {
     }
 
     componentDidMount() {
-        let { user, createUser, userUpdated } = this.props
+        let { user, createUser, syncUser } = this.props
 
         console.log(user)
-        if (user.id) {
-            // refresh from server here?
-            // redux-localstorage will restore from browser cache
-        }
-        else {
+        if (user.id === null) {
             // initialize new user
-            userUpdated({
+            syncUser({
                 id: uuidV4()
             })
         }
     }
 
     onFirstNameChange(event, value) {
-        let { userUpdated } = this.props
+        let { user, syncUser } = this.props
 
-        userUpdated({ firstName: value })
+        syncUser(Object.assign({}, user, { firstName: value }))
     }
 
     onLastNameChange(event, value) {
-        let { userUpdated } = this.props
+        let { user, syncUser } = this.props
 
-        userUpdated({ lastName: value })
+        syncUser(Object.assign({}, user, { lastName: value }))
     }
 
     onEmailChange(event, value) {
-        let { userUpdated } = this.props
+        let { user, syncUser } = this.props
 
-        userUpdated({ email: value })
+        syncUser(Object.assign({}, user, { email: value }))
     }
 
     onAwesomeChange(event, value) {
-        let { userUpdated } = this.props
+        let { user, syncUser } = this.props
 
-        userUpdated({ awesome: value })
+        syncUser(Object.assign({}, user, { awesome: value }))
     }
 
     onInfoChange(event, value) {
-        let { userUpdated } = this.props
+        let { user, syncUser } = this.props
 
-        userUpdated({ info: value })
+        syncUser(Object.assign({}, user, { info: value }))
     }
 
     render() {
-        let { user, createUser, userUpdated } = this.props
+        let { user, createUser, syncUser } = this.props
 
         return <div>
             <MarkdownForm {...user}

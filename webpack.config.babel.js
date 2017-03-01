@@ -58,7 +58,7 @@ const configuration = {
   //   maxEntrypointSize: 400000, // int (in bytes)
   // },
 
-  devtool: "source-map", // enum
+  devtool: process.env.DEVELOPMENT ? "source-map" : undefined, // enum
   // enhance debugging by adding meta info for the browser devtools
   // source-map most detailed at the expense of build speed.
 
@@ -84,7 +84,7 @@ const configuration = {
 
   devServer: {
     historyApiFallback: true,
-    compress: true,
+    // compress: true,
     // hot: true,
     port: 9000
   },
@@ -103,7 +103,8 @@ const configuration = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: process.env.DEVELOPMENT ? JSON.stringify('development') : JSON.stringify('production')
+        NODE_ENV: process.env.DEVELOPMENT ? JSON.stringify('development') : JSON.stringify('production'),
+        API_URL: JSON.stringify("https://hdusokrbg5.execute-api.us-west-2.amazonaws.com/dev")
       }
     }),
   ],

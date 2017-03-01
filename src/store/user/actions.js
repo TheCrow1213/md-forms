@@ -14,17 +14,17 @@ export function userUpdated(user) {
 }
 
 // thunks
-export function createUser() {
+export function syncUser(user) {
     return function (dispatch) {
-        return userService.createNewUser()
+        dispatch(userUpdated(user))
+        return userService.syncUser(user)
             .then(function (response) {
-                console.log(response)
+                var data = response.data
+                console.log(data)
                 console.log('Success!!!')
-                dispatch(userUpdated)
             })
             .catch(function (error) {
                 console.error(error)
-                debugger
             })
     }
 }
@@ -32,7 +32,5 @@ export function createUser() {
 
 export default {
     actionTypes,
-    createUser,
-    // todo dont expose
-    userUpdated
+    syncUser
 }
