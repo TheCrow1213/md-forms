@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "better-npm-run build",
-    "init-lambda": "better-npm-run init-lambda",
+    "init-aws": "better-npm-run init-aws",
+    "deploy-lambda": "better-npm-run deploy-lambda",
     "deploy": "better-npm-run deploy",
     "start": "better-npm-run server",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,25 +21,44 @@
     "build": {
       "command": "rm -rf dist && webpack",
       "env": {
-        "DEBUG": "webpack:*"
+        "DEBUG": "webpack:*",
+        "API_URL": "https://xdcjqzcyoc.execute-api.us-west-2.amazonaws.com/development"
       }
     },
-    "init-lambda": {
+    "init-aws": {
       "command": "./scripts/provisionAws.sh",
       "env": {
-        "DEBUG": "webpack:*"
+        "DEBUG": "webpack:*",
+        "REGION": "us-west-2",
+        "ROLE_NAME": "formsRole",
+        "S3_BUCKET": "mdforms",
+        "S3_BUCKET": "mdforms",
+        "DB_TABLE_NAME": "mdforms",
+        "API_NAME": "mdforms",
+        "API_ENV": "development",
+        "LAMBDA_NAME": "usersController"
+      }
+    },
+    "deploy-lambda": {
+      "command": "./scripts/syncLambdaS3.sh && ./scripts/updateFunction.sh",
+      "env": {
+        "S3_BUCKET": "mdforms",
+        "LAMBDA_NAME": "usersController"
       }
     },
     "deploy": {
-      "command": "rm -rf dist && webpack && ./scripts/syncLambdaS3.sh && ./scripts/syncWebAssetsS3.sh && ./scripts/updateFunction.sh",
+      "command": "npm run build && ./scripts/syncWebAssetsS3.sh && npm run deploy-lambda",
       "env": {
-        "DEBUG": "webpack:*"
+        "DEBUG": "webpack:*",
+        "S3_BUCKET": "mdforms",
+        "LAMBDA_NAME": "usersController"
       }
     },
     "server": {
       "command": "webpack-dev-server",
       "env": {
         "DEBUG": "webpack:*",
+        "API_URL": "https://xdcjqzcyoc.execute-api.us-west-2.amazonaws.com/development",
         "DEVELOPMENT": true
       }
     }

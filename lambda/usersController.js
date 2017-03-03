@@ -2,15 +2,11 @@ var doc = require('dynamodb-doc');
 var db = new doc.DynamoDB();
 
 function syncUser(user, callback) {
-    console.log('Syncing user context...');
-    console.log(user);
     
-    var params = {
+    db.putItem({
         TableName: 'mdforms',
         Item: user
-    };
-    
-    db.putItem(params, function(err, data) {
+    }, function(err, data) {
         if (err) {
             console.log('ERROR!');
             callback(err, false);

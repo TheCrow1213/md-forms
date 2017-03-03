@@ -1,14 +1,4 @@
 #!/bin/bash
-REGION='us-west-2'
-ROLE_NAME='formsRole'
-S3_BUCKET='mdforms'
-DB_TABLE_NAME='mdforms'
-API_NAME='mdforms'
-API_ENV='development'
-LAMBDA_NAME='usersController'
-
-## TODO output final api url: https://<api_id>.execute-api.<region>.amazonaws.com/<api_env>
-
 ./scripts/syncLambdaS3.sh
 
 echo 'Creating role...'
@@ -148,3 +138,7 @@ aws dynamodb create-table \
     --key-schema 'AttributeName=id,KeyType=HASH' \
     --provisioned-throughput 'ReadCapacityUnits=5,WriteCapacityUnits=5' \
     --table-name $DB_TABLE_NAME
+
+echo "You're API should now be accessible at: https://$API_ID.execute-api.$REGION.amazonaws.com/$API_ENV"
+
+export API_URL="https://$API_ID.execute-api.$REGION.amazonaws.com/$API_ENV"

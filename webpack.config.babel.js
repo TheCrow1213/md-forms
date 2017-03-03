@@ -104,7 +104,7 @@ const configuration = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: process.env.DEVELOPMENT ? JSON.stringify('development') : JSON.stringify('production'),
-        API_URL: JSON.stringify("https://u21erch42f.execute-api.us-west-2.amazonaws.com/development")
+        API_URL: JSON.stringify(process.env.API_URL)
       }
     }),
   ],
