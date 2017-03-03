@@ -18,7 +18,7 @@
   },
   "betterScripts": {
     "build": {
-      "command": "rm -rf dist && webpack && ./scripts/zipLambda.sh",
+      "command": "rm -rf dist && webpack",
       "env": {
         "DEBUG": "webpack:*"
       }
@@ -30,7 +30,7 @@
       }
     },
     "deploy": {
-      "command": "rm -rf dist && webpack && ./scripts/zipLambda.sh && ./scripts/s3Sync.sh && ./scripts/updateFunction.sh",
+      "command": "rm -rf dist && webpack && ./scripts/syncLambdaS3.sh && ./scripts/syncWebAssetsS3.sh && ./scripts/updateFunction.sh",
       "env": {
         "DEBUG": "webpack:*"
       }
