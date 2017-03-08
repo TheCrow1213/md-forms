@@ -4,7 +4,7 @@ var db = new doc.DynamoDB();
 function syncUser(user, callback) {
     
     db.putItem({
-        TableName: 'mdforms',
+        TableName: process.env.TABLE_NAME,
         Item: user
     }, function(err, data) {
         if (err) {

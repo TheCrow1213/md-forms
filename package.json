@@ -30,11 +30,10 @@
       "env": {
         "DEBUG": "webpack:*",
         "REGION": "us-west-2",
-        "ROLE_NAME": "formsRole",
-        "S3_BUCKET": "mdforms",
-        "S3_BUCKET": "mdforms",
-        "DB_TABLE_NAME": "mdforms",
-        "API_NAME": "mdforms",
+        "ROLE_NAME": "mdformsRole",
+        "S3_BUCKET": "testmdform3",
+        "DB_TABLE_NAME": "testmdform3",
+        "API_NAME": "testmdform3",
         "API_ENV": "development",
         "LAMBDA_NAME": "usersController"
       }
@@ -42,7 +41,7 @@
     "deploy-lambda": {
       "command": "./scripts/syncLambdaS3.sh && ./scripts/updateFunction.sh",
       "env": {
-        "S3_BUCKET": "mdforms",
+        "S3_BUCKET": "testmdform3",
         "LAMBDA_NAME": "usersController"
       }
     },
@@ -50,7 +49,7 @@
       "command": "npm run build && ./scripts/syncWebAssetsS3.sh && npm run deploy-lambda",
       "env": {
         "DEBUG": "webpack:*",
-        "S3_BUCKET": "mdforms",
+        "S3_BUCKET": "testmdform3",
         "LAMBDA_NAME": "usersController"
       }
     },

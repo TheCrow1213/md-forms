@@ -1,4 +1,34 @@
 #!/bin/bash
+
+## TODO Abort whole script after error
+
+echo 'Creating S3 Bucket...'
+aws s3api create-bucket \
+    --bucket $S3_BUCKET \
+    --region $REGION --create-bucket-configuration LocationConstraint=$REGION
+
+aws s3api put-bucket-website \
+    --bucket $S3_BUCKET \
+    --website-configuration file://./scripts/websiteConfiguration.json
+
+echo "{
+    \"Version\": \"2012-10-17\",
+    \"Id\": \"Policy1488316206573\",
+    \"Statement\": [
+        {
+            \"Sid\": \"Stmt1488316203150\",
+            \"Effect\": \"Allow\",
+            \"Principal\": \"*\",
+            \"Action\": \"s3:GetObject\",
+            \"Resource\": \"arn:aws:s3:::$S3_BUCKET/*\"
+        }
+    ]
+}" > './scripts/websitePolicy.json'
+
+aws s3api put-bucket-policy \
+    --bucket $S3_BUCKET \
+    --policy file://./scripts/websitePolicy.json
+
 ./scripts/syncLambdaS3.sh
 
 echo 'Creating role...'
@@ -31,7 +61,8 @@ LAMBDA_ARN=$(aws lambda create-function \
     --runtime 'nodejs4.3' \
     --handler "$LAMBDA_NAME.handler" \
     --region $REGION \
-    --code S3Bucket=$S3_BUCKET,S3Key="$LAMBDA_NAME.zip"\
+    --code S3Bucket=$S3_BUCKET,S3Key="$LAMBDA_NAME.zip" \
+    --environment Variables={TABLE_NAME="$DB_TABLE_NAME"} \
     --query 'FunctionArn' --output text)
 
 echo 'Creating Api Gateway...'
@@ -139,6 +170,11 @@ aws dynamodb create-table \
     --provisioned-throughput 'ReadCapacityUnits=5,WriteCapacityUnits=5' \
     --table-name $DB_TABLE_NAME
 
-echo "You're API should now be accessible at: https://$API_ID.execute-api.$REGION.amazonaws.com/$API_ENV"
-
 export API_URL="https://$API_ID.execute-api.$REGION.amazonaws.com/$API_ENV"
+
+echo 'Building & Deploying website...'
+webpack && ./scripts/syncWebAssetsS3.sh
+
+echo "You're API should now be accessible at: https://$API_ID.execute-api.$REGION.amazonaws.com/$API_ENV"
+echo "Website is accessible at http://$S3_BUCKET.s3-website-$REGION.amazonaws.com"
+
