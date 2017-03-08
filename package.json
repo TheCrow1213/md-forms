@@ -11,6 +11,7 @@
   },
   "scripts": {
     "build": "better-npm-run build",
+    "server": "better-npm-run server",
     "init-aws": "better-npm-run init-aws",
     "deploy-lambda": "better-npm-run deploy-lambda",
     "deploy": "better-npm-run deploy",
@@ -30,10 +31,10 @@
       "env": {
         "DEBUG": "webpack:*",
         "REGION": "us-west-2",
-        "ROLE_NAME": "mdformsRole",
-        "S3_BUCKET": "testmdform3",
-        "DB_TABLE_NAME": "testmdform3",
-        "API_NAME": "testmdform3",
+        "ROLE_NAME": "arloformRole",
+        "S3_BUCKET": "arloformtest",
+        "DB_TABLE_NAME": "arloformtest",
+        "API_NAME": "arloformtest",
         "API_ENV": "development",
         "LAMBDA_NAME": "usersController"
       }
@@ -41,7 +42,7 @@
     "deploy-lambda": {
       "command": "./scripts/syncLambdaS3.sh && ./scripts/updateFunction.sh",
       "env": {
-        "S3_BUCKET": "testmdform3",
+        "S3_BUCKET": "arloformtest",
         "LAMBDA_NAME": "usersController"
       }
     },
@@ -49,7 +50,7 @@
       "command": "npm run build && ./scripts/syncWebAssetsS3.sh && npm run deploy-lambda",
       "env": {
         "DEBUG": "webpack:*",
-        "S3_BUCKET": "testmdform3",
+        "S3_BUCKET": "arloformtest",
         "LAMBDA_NAME": "usersController"
       }
     },
