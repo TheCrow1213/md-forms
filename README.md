@@ -1,6 +1,5 @@
 # md-forms
 
-Currently hosted at:
-http://mdforms.s3-website-us-west-2.amazonaws.com/
+React SPA with a small form that syncs with AWS Dynamo
 
-This is a simple React SPA with a small form that syncs with AWS Dynamo
+NPM shell scripts included to provision & deploy to AWS (TODO: migrate to javascript sdk)
